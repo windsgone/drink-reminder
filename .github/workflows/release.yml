@@ -30,6 +30,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.package.outputs.artifact_path }}
+          overwrite_files: true
           generate_release_notes: true
           body: |
             Download the zip, extract it, and move `Drink Reminder.app` into your Applications folder.
