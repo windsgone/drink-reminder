@@ -30,6 +30,21 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
+Or auto-create the next tag:
+
+```bash
+scripts/release-next-tag.sh
+```
+
+This bumps patch version by default (`v1.0.0` -> `v1.0.1`) and pushes the tag.
+You can also use:
+
+```bash
+scripts/release-next-tag.sh minor
+scripts/release-next-tag.sh major
+scripts/release-next-tag.sh patch --dry-run
+```
+
 ## 3) Local package build (optional)
 
 ```bash
