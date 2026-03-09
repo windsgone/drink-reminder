@@ -35,10 +35,9 @@ struct MenuBarView: View {
         }
         .disabled(reminderManager.state.isPausedToday)
 
-        Button("Pause today") {
-            reminderManager.pauseToday()
+        Button(reminderActionTitle) {
+            reminderAction()
         }
-        .disabled(reminderManager.state.isPausedToday)
 
         Divider()
 
@@ -91,6 +90,18 @@ struct MenuBarView: View {
         }
 
         return nil
+    }
+
+    private var reminderActionTitle: String {
+        reminderManager.state.isPausedToday ? "Resume reminders" : "Pause today"
+    }
+
+    private func reminderAction() {
+        if reminderManager.state.isPausedToday {
+            reminderManager.resumeReminders()
+        } else {
+            reminderManager.pauseToday()
+        }
     }
 }
 

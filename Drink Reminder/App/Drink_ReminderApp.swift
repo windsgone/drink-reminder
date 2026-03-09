@@ -1,22 +1,25 @@
-//
-//  Drink_ReminderApp.swift
-//  Drink Reminder
-//
-//  Created by Zhongyang Fan on 2026/3/9.
-//
-
+import AppKit
 import SwiftUI
 
 @main
 struct Drink_ReminderApp: App {
+    private static let menuBarIconAssetName = "StatusBarIcon"
+    private static let menuBarPausedIconAssetName = "StatusBarIconPaused"
+    private static let menuBarFallbackSymbolName = "waterbottle.fill"
+    private static let menuBarPausedFallbackSymbolName = "pause.fill"
+
     @State private var reminderManager = ReminderManager()
+
+    init() {
+        NSApplication.shared.setActivationPolicy(.accessory)
+    }
 
     var body: some Scene {
         MenuBarExtra {
             MenuBarView()
                 .environment(reminderManager)
         } label: {
-            Image(systemName: "drop.fill")
+            menuBarIcon
                 .accessibilityLabel("Drink Reminder")
         }
         .menuBarExtraStyle(.menu)
@@ -26,5 +29,34 @@ struct Drink_ReminderApp: App {
                 .environment(reminderManager)
                 .frame(minWidth: 380, minHeight: 320)
         }
+    }
+
+    private var menuBarIcon: Image {
+        if let image = templatedMenuBarIcon {
+            Image(nsImage: image)
+        } else {
+            Image(systemName: fallbackSystemSymbolName)
+        }
+    }
+
+    private var templatedMenuBarIcon: NSImage? {
+        guard let image = NSImage(named: currentMenuBarIconAssetName)?.copy() as? NSImage else {
+            return nil
+        }
+
+        image.isTemplate = true
+        return image
+    }
+
+    private var currentMenuBarIconAssetName: String {
+        reminderManager.shouldUsePausedMenuBarIcon
+            ? Self.menuBarPausedIconAssetName
+            : Self.menuBarIconAssetName
+    }
+
+    private var fallbackSystemSymbolName: String {
+        reminderManager.shouldUsePausedMenuBarIcon
+            ? Self.menuBarPausedFallbackSymbolName
+            : Self.menuBarFallbackSymbolName
     }
 }

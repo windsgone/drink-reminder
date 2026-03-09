@@ -71,7 +71,10 @@ final class ReminderManager {
     }
 
     func drinkNow() {
-        let now = Date()
+        drinkNow(now: Date())
+    }
+
+    func drinkNow(now: Date) {
         state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
         state.lastDrinkTime = now
         state.snoozedUntil = nil
@@ -81,7 +84,10 @@ final class ReminderManager {
     }
 
     func snooze10Minutes() {
-        let now = Date()
+        snooze10Minutes(now: Date())
+    }
+
+    func snooze10Minutes(now: Date) {
         let snoozedUntil = TimeUtils.date(byAddingMinutes: 10, to: now, calendar: calendar)
         state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
         state.snoozedUntil = snoozedUntil
@@ -90,11 +96,26 @@ final class ReminderManager {
     }
 
     func pauseToday() {
-        let now = Date()
+        pauseToday(now: Date())
+    }
+
+    func pauseToday(now: Date) {
         state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
         state.isPausedToday = true
         state.nextReminderTime = nil
         state.snoozedUntil = nil
+    }
+
+    func resumeReminders() {
+        resumeReminders(now: Date())
+    }
+
+    func resumeReminders(now: Date) {
+        state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
+        state.isPausedToday = false
+        state.nextReminderTime = nil
+        state.snoozedUntil = nil
+        recalculateNextReminder(now: now)
     }
 
     func updateSettings(_ newSettings: AppSettings) -> ValidationResult {
@@ -120,6 +141,10 @@ final class ReminderManager {
 
     var isOutsideReminderWindow: Bool {
         !state.isPausedToday && !ReminderScheduler.isWithinReminderWindow(now: Date(), settings: settings, calendar: calendar)
+    }
+
+    var shouldUsePausedMenuBarIcon: Bool {
+        state.isPausedToday || state.snoozedUntil != nil
     }
 
     var nextReminderDescription: String? {
