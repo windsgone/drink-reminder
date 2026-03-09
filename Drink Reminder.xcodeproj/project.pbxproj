@@ -6,8 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		533299E16C080AD230679F50 /* ReminderSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0EA1B6CBC6180D255702EE /* ReminderSchedulerTests.swift */; };
+		9E0DE3A299C16D676D607BE6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E457376702725052260C27 /* Cocoa.framework */; };
+		AD542AB0BF55A203E248E299 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BFFE6613CF4AA7C463CCBF /* XCTest.framework */; };
+		C8C22F3CAEE5C109A8B2F162 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C9D5B7C53A6F1DE7C84462 /* SettingsStoreTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BBAF273A846A65F1067D86CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3467C42F5E6E0F0077A804 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F3467CB2F5E6E0F0077A804;
+			remoteInfo = "Drink Reminder";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		5F3467CC2F5E6E0F0077A804 /* Drink Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drink Reminder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F0EA1B6CBC6180D255702EE /* ReminderSchedulerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReminderSchedulerTests.swift; sourceTree = "<group>"; };
+		777FBC9261970D4E88173E30 /* Drink ReminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Drink ReminderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1BFFE6613CF4AA7C463CCBF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		B2E457376702725052260C27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		C9C9D5B7C53A6F1DE7C84462 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +48,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		83F967E8C8360CB47BE49870 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E0DE3A299C16D676D607BE6 /* Cocoa.framework in Frameworks */,
+				AD542AB0BF55A203E248E299 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -34,6 +65,8 @@
 			children = (
 				5F3467CE2F5E6E0F0077A804 /* Drink Reminder */,
 				5F3467CD2F5E6E0F0077A804 /* Products */,
+				8B80147A86EA50C8480A4AEB /* Frameworks */,
+				B72E904FF4C631C10B2A1436 /* Drink ReminderTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -41,8 +74,35 @@
 			isa = PBXGroup;
 			children = (
 				5F3467CC2F5E6E0F0077A804 /* Drink Reminder.app */,
+				777FBC9261970D4E88173E30 /* Drink ReminderTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8B80147A86EA50C8480A4AEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8CACB5FF4BCE739AC6EEE46C /* OS X */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8CACB5FF4BCE739AC6EEE46C /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				B2E457376702725052260C27 /* Cocoa.framework */,
+				A1BFFE6613CF4AA7C463CCBF /* XCTest.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		B72E904FF4C631C10B2A1436 /* Drink ReminderTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F0EA1B6CBC6180D255702EE /* ReminderSchedulerTests.swift */,
+				C9C9D5B7C53A6F1DE7C84462 /* SettingsStoreTests.swift */,
+			);
+			path = "Drink ReminderTests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -64,11 +124,27 @@
 				5F3467CE2F5E6E0F0077A804 /* Drink Reminder */,
 			);
 			name = "Drink Reminder";
-			packageProductDependencies = (
-			);
 			productName = "Drink Reminder";
 			productReference = 5F3467CC2F5E6E0F0077A804 /* Drink Reminder.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F5560F8FB333ABA8F1ACC52B /* Drink ReminderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A065F025F6310D89394E5E2 /* Build configuration list for PBXNativeTarget "Drink ReminderTests" */;
+			buildPhases = (
+				E2FA71457BC8C0C7F059E802 /* Sources */,
+				83F967E8C8360CB47BE49870 /* Frameworks */,
+				22A06987B1E68952F12A9760 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70198074B71336BD7F80ECE1 /* PBXTargetDependency */,
+			);
+			name = "Drink ReminderTests";
+			productName = "Drink ReminderTests";
+			productReference = 777FBC9261970D4E88173E30 /* Drink ReminderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -100,11 +176,19 @@
 			projectRoot = "";
 			targets = (
 				5F3467CB2F5E6E0F0077A804 /* Drink Reminder */,
+				F5560F8FB333ABA8F1ACC52B /* Drink ReminderTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		22A06987B1E68952F12A9760 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5F3467CA2F5E6E0F0077A804 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -122,9 +206,81 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E2FA71457BC8C0C7F059E802 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				533299E16C080AD230679F50 /* ReminderSchedulerTests.swift in Sources */,
+				C8C22F3CAEE5C109A8B2F162 /* SettingsStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		70198074B71336BD7F80ECE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Drink Reminder";
+			target = 5F3467CB2F5E6E0F0077A804 /* Drink Reminder */;
+			targetProxy = BBAF273A846A65F1067D86CB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		1C0AD2F747F8EB48EF04B7C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnnyfan.Drink-ReminderTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drink Reminder.app/Contents/MacOS/Drink Reminder";
+				TEST_TARGET_NAME = "Drink Reminder";
+			};
+			name = Debug;
+		};
+		35155070CB60301DD9B7B6DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnnyfan.Drink-ReminderTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drink Reminder.app/Contents/MacOS/Drink Reminder";
+				TEST_TARGET_NAME = "Drink Reminder";
+			};
+			name = Release;
+		};
 		5F3467D52F5E6E100077A804 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -159,6 +315,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -183,6 +340,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -222,6 +380,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -239,6 +398,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -251,6 +411,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -281,6 +442,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -306,6 +468,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4A065F025F6310D89394E5E2 /* Build configuration list for PBXNativeTarget "Drink ReminderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35155070CB60301DD9B7B6DA /* Release */,
+				1C0AD2F747F8EB48EF04B7C2 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5F3467C72F5E6E0F0077A804 /* Build configuration list for PBXProject "Drink Reminder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
