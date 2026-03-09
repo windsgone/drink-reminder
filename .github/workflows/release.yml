@@ -1,0 +1,33 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build release zip
+        id: package
+        run: |
+          artifact_path="$(scripts/build-release-zip.sh Release)"
+          echo "artifact_path=${artifact_path}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.package.outputs.artifact_path }}
+          generate_release_notes: true
+          body: |
+            Download the zip, extract it, and move `Drink Reminder.app` into your Applications folder.
+
+            Note: this package is unsigned by default, so macOS Gatekeeper may require opening once via right-click -> Open.

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+configuration="${1:-Release}"
+
+if [[ "${configuration}" != "Release" && "${configuration}" != "Debug" ]]; then
+  echo "Usage: $0 [Release|Debug]" >&2
+  exit 1
+fi
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+project_dir="$(cd "${script_dir}/.." && pwd)"
+
+project_path="${project_dir}/Drink Reminder.xcodeproj"
+scheme="Drink Reminder"
+derived_data_path="${project_dir}/.build/release"
+app_name="Drink Reminder.app"
+app_path="${derived_data_path}/Build/Products/${configuration}/${app_name}"
+dist_dir="${project_dir}/dist"
+
+echo "Building ${scheme} (${configuration})..." >&2
+xcodebuild \
+  -project "${project_path}" \
+  -scheme "${scheme}" \
+  -configuration "${configuration}" \
+  -derivedDataPath "${derived_data_path}" \
+  clean build >&2
+
+if [[ ! -d "${app_path}" ]]; then
+  echo "Build finished, but app was not found at:" >&2
+  echo "  ${app_path}" >&2
+  exit 1
+fi
+
+version="$(defaults read "${app_path}/Contents/Info" CFBundleShortVersionString)"
+build_number="$(defaults read "${app_path}/Contents/Info" CFBundleVersion)"
+artifact_name="Drink-Reminder-${version}-${build_number}-macOS.zip"
+artifact_path="${dist_dir}/${artifact_name}"
+
+mkdir -p "${dist_dir}"
+rm -f "${artifact_path}"
+
+echo "Packaging ${artifact_name}..." >&2
+ditto -c -k --sequesterRsrc --keepParent "${app_path}" "${artifact_path}"
+
+echo "${artifact_path}"
