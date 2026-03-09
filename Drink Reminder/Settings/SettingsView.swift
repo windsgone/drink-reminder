@@ -152,24 +152,30 @@ struct SettingsView: View {
 }
 
 private enum IntervalChoice: String, CaseIterable, Identifiable {
+    case minutes5
+    case minutes10
+    case minutes15
     case minutes30
     case minutes45
     case minutes60
-    case minutes90
     case custom
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
+        case .minutes5:
+            return "5 minutes"
+        case .minutes10:
+            return "10 minutes"
+        case .minutes15:
+            return "15 minutes"
         case .minutes30:
             return "30 minutes"
         case .minutes45:
             return "45 minutes"
         case .minutes60:
             return "60 minutes"
-        case .minutes90:
-            return "90 minutes"
         case .custom:
             return "Custom"
         }
@@ -177,14 +183,18 @@ private enum IntervalChoice: String, CaseIterable, Identifiable {
 
     static func choice(for intervalMinutes: Int) -> IntervalChoice {
         switch intervalMinutes {
+        case 5:
+            return .minutes5
+        case 10:
+            return .minutes10
+        case 15:
+            return .minutes15
         case 30:
             return .minutes30
         case 45:
             return .minutes45
         case 60:
             return .minutes60
-        case 90:
-            return .minutes90
         default:
             return .custom
         }

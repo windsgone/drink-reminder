@@ -33,6 +33,17 @@ final class ReminderManagerTests: XCTestCase {
         XCTAssertEqual(manager.state.nextReminderTime, makeDate(year: 2026, month: 3, day: 9, hour: 13, minute: 0))
     }
 
+    func testSnooze30MinutesSetsSnoozedUntilAndNextReminderTime() {
+        let manager = ReminderManager(calendar: calendar)
+        let now = makeDate(year: 2026, month: 3, day: 9, hour: 12, minute: 0)
+        let expected = makeDate(year: 2026, month: 3, day: 9, hour: 12, minute: 30)
+
+        manager.snooze30Minutes(now: now)
+
+        XCTAssertEqual(manager.state.snoozedUntil, expected)
+        XCTAssertEqual(manager.state.nextReminderTime, expected)
+    }
+
     private func makeDate(year: Int, month: Int, day: Int, hour: Int, minute: Int) -> Date {
         let components = DateComponents(
             calendar: calendar,

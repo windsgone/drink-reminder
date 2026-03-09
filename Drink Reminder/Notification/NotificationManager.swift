@@ -28,8 +28,8 @@ struct NotificationManager {
 
     func sendReminder() async {
         let content = UNMutableNotificationContent()
-        content.title = "该喝水了"
-        content.body = "起来喝几口水吧"
+        content.title = "It's time to drink"
+        content.body = "water or whatever"
         content.sound = .default
 
         let request = UNNotificationRequest(

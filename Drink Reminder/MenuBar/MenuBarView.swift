@@ -11,6 +11,7 @@ import UserNotifications
 
 struct MenuBarView: View {
     @Environment(ReminderManager.self) private var reminderManager
+    @Environment(\.openSettings) private var openSettings
 
     var body: some View {
         Text(primaryStatusLine)
@@ -34,8 +35,8 @@ struct MenuBarView: View {
         }
         .disabled(reminderManager.state.isPausedToday)
 
-        Button("Snooze 10 minutes") {
-            reminderManager.snooze10Minutes()
+        Button("Snooze 30 minutes") {
+            reminderManager.snooze30Minutes()
         }
         .disabled(reminderManager.state.isPausedToday)
 
@@ -45,8 +46,9 @@ struct MenuBarView: View {
 
         Divider()
 
-        SettingsLink {
-            Text("Settings")
+        Button("Settings") {
+            openSettings()
+            NSApplication.shared.activate(ignoringOtherApps: true)
         }
 
         Divider()

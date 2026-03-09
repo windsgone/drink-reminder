@@ -94,12 +94,12 @@ final class ReminderManager {
         recalculateNextReminder(now: now)
     }
 
-    func snooze10Minutes() {
-        snooze10Minutes(now: Date())
+    func snooze30Minutes() {
+        snooze30Minutes(now: Date())
     }
 
-    func snooze10Minutes(now: Date) {
-        let snoozedUntil = TimeUtils.date(byAddingMinutes: 10, to: now, calendar: calendar)
+    func snooze30Minutes(now: Date) {
+        let snoozedUntil = TimeUtils.date(byAddingMinutes: 30, to: now, calendar: calendar)
         state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
         state.snoozedUntil = snoozedUntil
         state.nextReminderTime = snoozedUntil
