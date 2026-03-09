@@ -1,13 +1,11 @@
-//
-//  NotificationManager.swift
-//  Drink Reminder
-//
-//  Created by Codex on 2026/3/9.
-//
-
+import AppKit
 import UserNotifications
 
 struct NotificationManager {
+    private static let systemNotificationSettingsURL = URL(
+        string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension"
+    )
+
     private let notificationCenter: UNUserNotificationCenter
 
     init(notificationCenter: UNUserNotificationCenter = .current()) {
@@ -41,5 +39,13 @@ struct NotificationManager {
         )
 
         try? await notificationCenter.add(request)
+    }
+
+    func openSystemNotificationSettings() {
+        guard let url = Self.systemNotificationSettingsURL else {
+            return
+        }
+
+        NSWorkspace.shared.open(url)
     }
 }

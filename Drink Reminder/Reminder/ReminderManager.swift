@@ -60,10 +60,21 @@ final class ReminderManager {
         observeWakeNotifications()
 
         Task {
-            await refreshNotificationAuthorizationStatus(
-                requestIfNeeded: settings.enableNotification && allowsAuthorizationPrompts
-            )
+            await refreshNotificationAuthorizationStatus(requestIfNeeded: false)
         }
+    }
+
+    func requestNotificationAuthorizationOnLaunchIfNeeded() async {
+        guard settings.enableNotification && allowsAuthorizationPrompts else {
+            await refreshNotificationAuthorizationStatus(requestIfNeeded: false)
+            return
+        }
+
+        await refreshNotificationAuthorizationStatus(requestIfNeeded: true)
+    }
+
+    func openSystemNotificationSettings() {
+        notificationManager.openSystemNotificationSettings()
     }
 
     func handleTimerTick() {

@@ -8,10 +8,19 @@ struct Drink_ReminderApp: App {
     private static let menuBarFallbackSymbolName = "waterbottle.fill"
     private static let menuBarPausedFallbackSymbolName = "pause.fill"
 
-    @State private var reminderManager = ReminderManager()
+    @State private var reminderManager: ReminderManager
 
     init() {
+        let reminderManager = ReminderManager()
+        _reminderManager = State(initialValue: reminderManager)
+
         NSApplication.shared.setActivationPolicy(.accessory)
+
+        Task { @MainActor in
+            for await _ in NotificationCenter.default.notifications(named: NSApplication.didFinishLaunchingNotification).prefix(1) {
+                await reminderManager.requestNotificationAuthorizationOnLaunchIfNeeded()
+            }
+        }
     }
 
     var body: some Scene {

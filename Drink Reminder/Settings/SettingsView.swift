@@ -44,9 +44,12 @@ struct SettingsView: View {
                 Toggle("System Notification", isOn: $enableNotification)
 
                 if enableNotification && reminderManager.notificationAuthorizationStatus == .denied {
-                    Text("Enable notifications in System Settings")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+                    Button("Enable notifications in System Settings") {
+                        reminderManager.openSystemNotificationSettings()
+                    }
+                    .buttonStyle(.plain)
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
                 }
             }
 
@@ -130,14 +133,18 @@ struct SettingsView: View {
 
     private var resolvedIntervalMinutes: Int? {
         switch intervalChoice {
+        case .minutes5:
+            return 5
+        case .minutes10:
+            return 10
+        case .minutes15:
+            return 15
         case .minutes30:
             return 30
         case .minutes45:
             return 45
         case .minutes60:
             return 60
-        case .minutes90:
-            return 90
         case .custom:
             return Int(customIntervalText.trimmingCharacters(in: .whitespacesAndNewlines))
         }

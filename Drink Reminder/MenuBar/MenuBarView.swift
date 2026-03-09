@@ -20,7 +20,11 @@ struct MenuBarView: View {
         }
 
         if let notificationStatusLine {
-            Text(notificationStatusLine)
+            Button(notificationStatusLine) {
+                reminderManager.openSystemNotificationSettings()
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.secondary)
         }
 
         Divider()
