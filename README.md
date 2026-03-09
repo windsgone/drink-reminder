@@ -19,6 +19,9 @@ When you push a tag like `v1.0.0`, GitHub Actions will:
 - build the macOS app in Release mode
 - package `Drink Reminder.app` into a zip
 - create a GitHub Release and attach the zip
+- set app versions automatically:
+  - `MARKETING_VERSION` = `1.0.0` (from tag `v1.0.0`)
+  - `CURRENT_PROJECT_VERSION` = GitHub Actions run number (auto-incrementing build number)
 
 Run:
 

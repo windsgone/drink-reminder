@@ -18,8 +18,12 @@ jobs:
 
       - name: Build release zip
         id: package
+        env:
+          MARKETING_VERSION_OVERRIDE: ${{ github.ref_name }}
+          BUILD_NUMBER_OVERRIDE: ${{ github.run_number }}
         run: |
-          artifact_path="$(scripts/build-release-zip.sh Release)"
+          marketing_version="${MARKETING_VERSION_OVERRIDE#v}"
+          artifact_path="$(MARKETING_VERSION_OVERRIDE="${marketing_version}" BUILD_NUMBER_OVERRIDE="${BUILD_NUMBER_OVERRIDE}" scripts/build-release-zip.sh Release)"
           echo "artifact_path=${artifact_path}" >> "$GITHUB_OUTPUT"
 
       - name: Publish GitHub Release

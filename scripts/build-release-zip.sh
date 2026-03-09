@@ -3,6 +3,8 @@
 set -euo pipefail
 
 configuration="${1:-Release}"
+marketing_version_override="${MARKETING_VERSION_OVERRIDE:-}"
+build_number_override="${BUILD_NUMBER_OVERRIDE:-}"
 
 if [[ "${configuration}" != "Release" && "${configuration}" != "Debug" ]]; then
   echo "Usage: $0 [Release|Debug]" >&2
@@ -20,11 +22,23 @@ app_path="${derived_data_path}/Build/Products/${configuration}/${app_name}"
 dist_dir="${project_dir}/dist"
 
 echo "Building ${scheme} (${configuration})..." >&2
+build_args=(
+  -project "${project_path}"
+  -scheme "${scheme}"
+  -configuration "${configuration}"
+  -derivedDataPath "${derived_data_path}"
+)
+
+# Allow CI to inject deterministic release versions without mutating project files.
+if [[ -n "${marketing_version_override}" ]]; then
+  build_args+=(MARKETING_VERSION="${marketing_version_override}")
+fi
+if [[ -n "${build_number_override}" ]]; then
+  build_args+=(CURRENT_PROJECT_VERSION="${build_number_override}")
+fi
+
 xcodebuild \
-  -project "${project_path}" \
-  -scheme "${scheme}" \
-  -configuration "${configuration}" \
-  -derivedDataPath "${derived_data_path}" \
+  "${build_args[@]}" \
   clean build >&2
 
 if [[ ! -d "${app_path}" ]]; then
