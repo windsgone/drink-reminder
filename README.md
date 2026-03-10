@@ -1,62 +1,90 @@
 # Drink Reminder
 
-A macOS menu bar app for hydration reminders.
+Drink Reminder is a lightweight macOS menu bar app that reminds you to drink water during the hours you choose.
 
-## 1) Push this project to a new public GitHub repo
+It lives in the menu bar, sends reminders at a fixed interval, and lets you quickly snooze, pause, or log a drink.
 
-```bash
-git remote add origin git@github.com:<your-username>/<your-repo>.git
-# or:
-# git remote add origin https://github.com/<your-username>/<your-repo>.git
+## Download and install
 
-git push -u origin main
-```
+1. Download the latest `Drink Reminder.app.zip` from GitHub Releases.
+2. Unzip the file.
+3. Drag `Drink Reminder.app` into your `Applications` folder.
+4. Open the app.
 
-## 2) Create a downloadable Release package
+After the app launches, you should see a water bottle icon in the macOS menu bar.
 
-This repo includes `.github/workflows/release.yml`.
-When you push a tag like `v1.0.0`, GitHub Actions will:
-- build the macOS app in Release mode
-- package `Drink Reminder.app` into a zip
-- create a GitHub Release and attach the zip
-- set app versions automatically:
-  - `MARKETING_VERSION` = `1.0.0` (from tag `v1.0.0`)
-  - `CURRENT_PROJECT_VERSION` = GitHub Actions run number (auto-incrementing build number)
+## If macOS says the app cannot be opened
 
-Run:
+This build is currently **not code signed / notarized**, so macOS may block it the first time you try to open it.
 
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
+Try these options in order:
 
-Or auto-create the next tag:
+### Option 1: Open from the context menu
 
-```bash
-scripts/release-next-tag.sh
-```
+1. Open `Applications`.
+2. Find `Drink Reminder.app`.
+3. Right-click the app and choose `Open`.
+4. Click `Open` again in the confirmation dialog.
 
-This bumps patch version by default (`v1.0.0` -> `v1.0.1`) and pushes the tag.
-You can also use:
+This is usually the simplest fix.
 
-```bash
-scripts/release-next-tag.sh minor
-scripts/release-next-tag.sh major
-scripts/release-next-tag.sh patch --dry-run
-```
+### Option 2: Allow it in Privacy & Security
 
-## 3) Local package build (optional)
+If you already tried to open it and macOS blocked it:
+
+1. Open `System Settings`.
+2. Go to `Privacy & Security`.
+3. Scroll down to the security section.
+4. Look for a message saying `Drink Reminder` was blocked.
+5. Click `Open Anyway`.
+6. Confirm by clicking `Open`.
+
+### Option 3: Remove the quarantine flag in Terminal
+
+Use this only if you trust the app and the two options above still do not work.
 
 ```bash
-scripts/build-release-zip.sh Release
+xattr -dr com.apple.quarantine /Applications/Drink\ Reminder.app
 ```
 
-The generated zip is in `dist/`.
+Then try opening the app again.
 
-## Install for end users
+## First launch
 
-1. Download the zip from GitHub Release.
-2. Unzip it.
-3. Drag `Drink Reminder.app` to `Applications` and open it.
+On first launch, the app may ask for permission to send notifications. Allow notifications if you want reminder alerts from macOS.
 
-If you need truly "double-click and install without security warning", you must code sign + notarize with an Apple Developer certificate.
+The app does not open like a normal window-based app. It runs in the menu bar.
+
+## How to use
+
+Click the menu bar icon to open the app menu.
+
+From there you can:
+
+- `Drink now`: mark a drink and restart the reminder schedule
+- `Snooze 30 minutes`: delay the next reminder by 30 minutes
+- `Pause today`: stop reminders for the rest of the day
+- `Resume reminders`: start reminders again after pausing
+- `Settings`: change your schedule and notification behavior
+- `Quit`: close the app
+
+## Settings
+
+In `Settings`, you can configure:
+
+- reminder interval
+- start time
+- end time
+- whether system notifications are enabled
+
+Default settings:
+
+- reminder every `60 minutes`
+- reminder window from `9:00` to `20:00`
+- notifications enabled
+
+## Notes
+
+- `Pause today` resets automatically the next day.
+- If notifications are disabled in macOS, the menu will show a shortcut to open notification settings.
+- The app is designed to stay out of the way and run quietly from the menu bar.
