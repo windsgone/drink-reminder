@@ -9,12 +9,15 @@ import Foundation
 
 enum SettingsValidationError: LocalizedError, Equatable {
     case intervalTooShort
+    case standingIntervalTooShort
     case endTimeMustBeAfterStartTime
 
     nonisolated var errorDescription: String? {
         switch self {
         case .intervalTooShort:
-            return "Interval must be at least 5 minutes."
+            return "Drink interval must be at least 5 minutes."
+        case .standingIntervalTooShort:
+            return "Standing interval must be at least 5 minutes."
         case .endTimeMustBeAfterStartTime:
             return "End time must be later than start time."
         }
@@ -92,6 +95,44 @@ enum ReminderScheduler {
         return normalizedUpcomingReminder(candidate, settings: settings, calendar: calendar)
     }
 
+    nonisolated static func calculateNextStandingReminder(
+        now: Date,
+        state: ReminderState,
+        settings: AppSettings,
+        calendar: Calendar = .current
+    ) -> Date? {
+        guard case .valid = validate(settings: settings), !state.isPausedToday else {
+            return nil
+        }
+
+        if !isWithinReminderWindow(now: now, settings: settings, calendar: calendar) {
+            return nextStartTime(after: now, settings: settings, calendar: calendar)
+        }
+
+        if let nextReminder = state.nextStandingReminderTime, nextReminder > now {
+            return normalizedUpcomingReminder(nextReminder, settings: settings, calendar: calendar)
+        }
+
+        return nextStandingReminderAfterTrigger(now: now, settings: settings, calendar: calendar)
+    }
+
+    nonisolated static func nextStandingReminderAfterTrigger(
+        now: Date,
+        settings: AppSettings,
+        calendar: Calendar = .current
+    ) -> Date? {
+        guard case .valid = validate(settings: settings) else {
+            return nil
+        }
+
+        let candidate = TimeUtils.date(
+            byAddingMinutes: settings.standingReminderIntervalMinutes,
+            to: now,
+            calendar: calendar
+        )
+        return normalizedUpcomingReminder(candidate, settings: settings, calendar: calendar)
+    }
+
     nonisolated static func isWithinReminderWindow(
         now: Date,
         settings: AppSettings,
@@ -133,6 +174,10 @@ enum ReminderScheduler {
     nonisolated static func validate(settings: AppSettings) -> ValidationResult {
         if settings.reminderIntervalMinutes < minimumIntervalMinutes {
             return .invalid(.intervalTooShort)
+        }
+
+        if settings.standingReminderIntervalMinutes < minimumIntervalMinutes {
+            return .invalid(.standingIntervalTooShort)
         }
 
         let startTotalMinutes = (settings.startHour * 60) + settings.startMinute

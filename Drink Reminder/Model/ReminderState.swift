@@ -10,6 +10,7 @@ import Foundation
 struct ReminderState {
     var lastDrinkTime: Date?
     var nextReminderTime: Date?
+    var nextStandingReminderTime: Date?
     var isPausedToday: Bool
     var snoozedUntil: Date?
     var lastProcessedDay: Date?
@@ -17,12 +18,14 @@ struct ReminderState {
     nonisolated init(
         lastDrinkTime: Date? = nil,
         nextReminderTime: Date? = nil,
+        nextStandingReminderTime: Date? = nil,
         isPausedToday: Bool = false,
         snoozedUntil: Date? = nil,
         lastProcessedDay: Date? = nil
     ) {
         self.lastDrinkTime = lastDrinkTime
         self.nextReminderTime = nextReminderTime
+        self.nextStandingReminderTime = nextStandingReminderTime
         self.isPausedToday = isPausedToday
         self.snoozedUntil = snoozedUntil
         self.lastProcessedDay = lastProcessedDay

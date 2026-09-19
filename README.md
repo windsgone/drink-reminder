@@ -1,6 +1,6 @@
 # Drink Reminder
 
-Drink Reminder is a lightweight macOS menu bar app that reminds you to drink water during the hours you choose.
+Drink Reminder is a lightweight macOS menu bar app that reminds you to drink water and stand up during the hours you choose.
 
 It lives in the menu bar, sends reminders at a fixed interval, and lets you quickly snooze, pause, or log a drink.
 
@@ -73,6 +73,7 @@ From there you can:
 In `Settings`, you can configure:
 
 - reminder interval
+- standing reminder interval
 - start time
 - end time
 - whether system notifications are enabled
@@ -80,6 +81,7 @@ In `Settings`, you can configure:
 Default settings:
 
 - reminder every `60 minutes`
+- standing reminder every `40 minutes`
 - reminder window from `9:00` to `20:00`
 - notifications enabled
 

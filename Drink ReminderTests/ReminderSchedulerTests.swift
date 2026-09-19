@@ -98,6 +98,53 @@ final class ReminderSchedulerTests: XCTestCase {
         XCTAssertEqual(nextReminder, makeDate(year: 2026, month: 3, day: 9, hour: 17, minute: 5))
     }
 
+    func testStandingReminderUsesItsOwnDefaultInterval() {
+        let settings = makeSettings()
+        let now = makeDate(year: 2026, month: 3, day: 9, hour: 16, minute: 5)
+        let state = ReminderState(lastProcessedDay: TimeUtils.startOfDay(for: now, calendar: calendar))
+
+        let nextReminder = ReminderScheduler.calculateNextStandingReminder(
+            now: now,
+            state: state,
+            settings: settings,
+            calendar: calendar
+        )
+
+        XCTAssertEqual(nextReminder, makeDate(year: 2026, month: 3, day: 9, hour: 16, minute: 45))
+    }
+
+    func testStandingReminderUsesConfiguredInterval() {
+        var settings = makeSettings()
+        settings.standingReminderIntervalMinutes = 25
+        let now = makeDate(year: 2026, month: 3, day: 9, hour: 16, minute: 5)
+
+        let nextReminder = ReminderScheduler.nextStandingReminderAfterTrigger(
+            now: now,
+            settings: settings,
+            calendar: calendar
+        )
+
+        XCTAssertEqual(nextReminder, makeDate(year: 2026, month: 3, day: 9, hour: 16, minute: 30))
+    }
+
+    func testPausedStateAlsoReturnsNilStandingReminder() {
+        let settings = makeSettings()
+        let now = makeDate(year: 2026, month: 3, day: 9, hour: 12, minute: 0)
+        let state = ReminderState(
+            isPausedToday: true,
+            lastProcessedDay: TimeUtils.startOfDay(for: now, calendar: calendar)
+        )
+
+        XCTAssertNil(
+            ReminderScheduler.calculateNextStandingReminder(
+                now: now,
+                state: state,
+                settings: settings,
+                calendar: calendar
+            )
+        )
+    }
+
     func testPausedStateReturnsNilReminder() {
         let settings = makeSettings()
         let now = makeDate(year: 2026, month: 3, day: 9, hour: 12, minute: 0)

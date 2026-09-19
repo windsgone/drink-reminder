@@ -114,6 +114,7 @@ final class ReminderManager {
         state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
         state.isPausedToday = true
         state.nextReminderTime = nil
+        state.nextStandingReminderTime = nil
         state.snoozedUntil = nil
     }
 
@@ -125,6 +126,7 @@ final class ReminderManager {
         state.lastProcessedDay = TimeUtils.startOfDay(for: now, calendar: calendar)
         state.isPausedToday = false
         state.nextReminderTime = nil
+        state.nextStandingReminderTime = nil
         state.snoozedUntil = nil
         recalculateNextReminder(now: now)
     }
@@ -138,6 +140,7 @@ final class ReminderManager {
         settings = newSettings
         settingsStore.save(newSettings)
         state.nextReminderTime = nil
+        state.nextStandingReminderTime = nil
         state.snoozedUntil = nil
         recalculateNextReminder(now: Date(), clearExistingSchedule: true)
 
@@ -166,22 +169,31 @@ final class ReminderManager {
         return "Next reminder: \(TimeUtils.menuDateTimeString(nextReminderTime, calendar: calendar))"
     }
 
+    var nextStandingReminderDescription: String? {
+        guard let nextReminderTime = state.nextStandingReminderTime else {
+            return nil
+        }
+
+        return "Next stand: \(TimeUtils.menuDateTimeString(nextReminderTime, calendar: calendar))"
+    }
+
     private func handleTimerTick(now: Date) {
         resetDailyStateIfNeeded(now: now)
 
-        guard let nextReminderTime = state.nextReminderTime else {
+        if let nextReminderTime = state.nextReminderTime, now >= nextReminderTime {
+            triggerDrinkReminder(now: now)
+        } else if state.nextReminderTime == nil {
             recalculateNextReminder(now: now)
-            return
         }
 
-        guard now >= nextReminderTime else {
-            return
+        if let nextStandingReminderTime = state.nextStandingReminderTime, now >= nextStandingReminderTime {
+            triggerStandingReminder(now: now)
+        } else if state.nextStandingReminderTime == nil {
+            recalculateNextStandingReminder(now: now)
         }
-
-        triggerReminder(now: now)
     }
 
-    private func triggerReminder(now: Date) {
+    private func triggerDrinkReminder(now: Date) {
         state.snoozedUntil = nil
         state.nextReminderTime = ReminderScheduler.nextReminderAfterTrigger(
             now: now,
@@ -206,6 +218,30 @@ final class ReminderManager {
         }
     }
 
+    private func triggerStandingReminder(now: Date) {
+        state.nextStandingReminderTime = ReminderScheduler.nextStandingReminderAfterTrigger(
+            now: now,
+            settings: settings,
+            calendar: calendar
+        )
+
+        guard settings.enableNotification else {
+            return
+        }
+
+        Task {
+            if notificationAuthorizationStatus != .authorized {
+                await refreshNotificationAuthorizationStatus(requestIfNeeded: true)
+            }
+
+            guard notificationAuthorizationStatus == .authorized else {
+                return
+            }
+
+            await notificationManager.sendStandingReminder()
+        }
+    }
+
     private func recalculateNextReminder(now: Date, clearExistingSchedule: Bool = false) {
         resetDailyStateIfNeeded(now: now)
 
@@ -214,6 +250,20 @@ final class ReminderManager {
         }
 
         state.nextReminderTime = ReminderScheduler.calculateNextReminder(
+            now: now,
+            state: state,
+            settings: settings,
+            calendar: calendar
+        )
+        recalculateNextStandingReminder(now: now, clearExistingSchedule: clearExistingSchedule)
+    }
+
+    private func recalculateNextStandingReminder(now: Date, clearExistingSchedule: Bool = false) {
+        if clearExistingSchedule {
+            state.nextStandingReminderTime = nil
+        }
+
+        state.nextStandingReminderTime = ReminderScheduler.calculateNextStandingReminder(
             now: now,
             state: state,
             settings: settings,
@@ -235,6 +285,7 @@ final class ReminderManager {
 
         state.lastDrinkTime = nil
         state.nextReminderTime = nil
+        state.nextStandingReminderTime = nil
         state.isPausedToday = false
         state.snoozedUntil = nil
         state.lastProcessedDay = currentDay

@@ -13,6 +13,8 @@ struct SettingsView: View {
 
     @State private var intervalChoice: IntervalChoice = .minutes60
     @State private var customIntervalText = ""
+    @State private var standingIntervalChoice: IntervalChoice = .minutes40
+    @State private var customStandingIntervalText = ""
     @State private var startTime = Date()
     @State private var endTime = Date()
     @State private var enableNotification = true
@@ -22,7 +24,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section("Interval") {
+            Section("Drink Reminder") {
                 Picker("Reminder Interval", selection: $intervalChoice) {
                     ForEach(IntervalChoice.allCases) { choice in
                         Text(choice.title).tag(choice)
@@ -31,6 +33,19 @@ struct SettingsView: View {
 
                 if intervalChoice == .custom {
                     TextField("Custom interval (minutes)", text: $customIntervalText)
+                        .textFieldStyle(.roundedBorder)
+                }
+            }
+
+            Section("Standing Reminder") {
+                Picker("Reminder Interval", selection: $standingIntervalChoice) {
+                    ForEach(IntervalChoice.allCases) { choice in
+                        Text(choice.title).tag(choice)
+                    }
+                }
+
+                if standingIntervalChoice == .custom {
+                    TextField("Custom interval (minutes)", text: $customStandingIntervalText)
                         .textFieldStyle(.roundedBorder)
                 }
             }
@@ -87,11 +102,17 @@ struct SettingsView: View {
             return
         }
 
+        guard let standingIntervalMinutes = resolvedStandingIntervalMinutes else {
+            validationMessage = "Enter a valid standing interval."
+            return
+        }
+
         let startComponents = calendar.dateComponents([.hour, .minute], from: startTime)
         let endComponents = calendar.dateComponents([.hour, .minute], from: endTime)
 
         let updatedSettings = AppSettings(
             reminderIntervalMinutes: intervalMinutes,
+            standingReminderIntervalMinutes: standingIntervalMinutes,
             startHour: startComponents.hour ?? 9,
             startMinute: startComponents.minute ?? 0,
             endHour: endComponents.hour ?? 20,
@@ -115,6 +136,13 @@ struct SettingsView: View {
             customIntervalText = ""
         }
 
+        standingIntervalChoice = IntervalChoice.choice(for: settings.standingReminderIntervalMinutes)
+        if standingIntervalChoice == .custom {
+            customStandingIntervalText = String(settings.standingReminderIntervalMinutes)
+        } else {
+            customStandingIntervalText = ""
+        }
+
         startTime = TimeUtils.time(
             onSameDayAs: Date(),
             hour: settings.startHour,
@@ -132,7 +160,15 @@ struct SettingsView: View {
     }
 
     private var resolvedIntervalMinutes: Int? {
-        switch intervalChoice {
+        intervalMinutes(for: intervalChoice, customText: customIntervalText)
+    }
+
+    private var resolvedStandingIntervalMinutes: Int? {
+        intervalMinutes(for: standingIntervalChoice, customText: customStandingIntervalText)
+    }
+
+    private func intervalMinutes(for choice: IntervalChoice, customText: String) -> Int? {
+        switch choice {
         case .minutes5:
             return 5
         case .minutes10:
@@ -141,12 +177,14 @@ struct SettingsView: View {
             return 15
         case .minutes30:
             return 30
+        case .minutes40:
+            return 40
         case .minutes45:
             return 45
         case .minutes60:
             return 60
         case .custom:
-            return Int(customIntervalText.trimmingCharacters(in: .whitespacesAndNewlines))
+            return Int(customText.trimmingCharacters(in: .whitespacesAndNewlines))
         }
     }
 }
@@ -156,6 +194,7 @@ private enum IntervalChoice: String, CaseIterable, Identifiable {
     case minutes10
     case minutes15
     case minutes30
+    case minutes40
     case minutes45
     case minutes60
     case custom
@@ -172,6 +211,8 @@ private enum IntervalChoice: String, CaseIterable, Identifiable {
             return "15 minutes"
         case .minutes30:
             return "30 minutes"
+        case .minutes40:
+            return "40 minutes"
         case .minutes45:
             return "45 minutes"
         case .minutes60:
@@ -191,6 +232,8 @@ private enum IntervalChoice: String, CaseIterable, Identifiable {
             return .minutes15
         case 30:
             return .minutes30
+        case 40:
+            return .minutes40
         case 45:
             return .minutes45
         case 60:

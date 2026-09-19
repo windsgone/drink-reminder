@@ -36,7 +36,7 @@ struct Drink_ReminderApp: App {
         Settings {
             SettingsView()
                 .environment(reminderManager)
-                .frame(minWidth: 380, minHeight: 320)
+                .frame(minWidth: 380, minHeight: 420)
         }
     }
 

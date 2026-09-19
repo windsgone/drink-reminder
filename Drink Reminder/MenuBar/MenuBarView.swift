@@ -20,6 +20,10 @@ struct MenuBarView: View {
             Text(secondaryStatusLine)
         }
 
+        if let standingStatusLine {
+            Text(standingStatusLine)
+        }
+
         if let notificationStatusLine {
             Button(notificationStatusLine) {
                 reminderManager.openSystemNotificationSettings()
@@ -68,10 +72,18 @@ struct MenuBarView: View {
         }
 
         if let nextReminderTime = reminderManager.state.nextReminderTime {
-            return "Next reminder: \(TimeUtils.menuDateTimeString(nextReminderTime))"
+            return "Next drink: \(TimeUtils.menuDateTimeString(nextReminderTime))"
         }
 
         return "Next reminder unavailable"
+    }
+
+    private var standingStatusLine: String? {
+        guard !reminderManager.state.isPausedToday else {
+            return nil
+        }
+
+        return reminderManager.nextStandingReminderDescription
     }
 
     private var secondaryStatusLine: String? {

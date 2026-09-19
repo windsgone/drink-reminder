@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		533299E16C080AD230679F50 /* ReminderSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0EA1B6CBC6180D255702EE /* ReminderSchedulerTests.swift */; };
+		79E7A0E341E54F678B7D8112 /* ReminderManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E96C8E1C6A46C69DA11534 /* ReminderManagerTests.swift */; };
 		9E0DE3A299C16D676D607BE6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E457376702725052260C27 /* Cocoa.framework */; };
 		AD542AB0BF55A203E248E299 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BFFE6613CF4AA7C463CCBF /* XCTest.framework */; };
 		C8C22F3CAEE5C109A8B2F162 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C9D5B7C53A6F1DE7C84462 /* SettingsStoreTests.swift */; };
@@ -27,6 +28,7 @@
 		5F3467CC2F5E6E0F0077A804 /* Drink Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drink Reminder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F0EA1B6CBC6180D255702EE /* ReminderSchedulerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReminderSchedulerTests.swift; sourceTree = "<group>"; };
 		777FBC9261970D4E88173E30 /* Drink ReminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Drink ReminderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		92E96C8E1C6A46C69DA11534 /* ReminderManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReminderManagerTests.swift; sourceTree = "<group>"; };
 		A1BFFE6613CF4AA7C463CCBF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		B2E457376702725052260C27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C9C9D5B7C53A6F1DE7C84462 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		B72E904FF4C631C10B2A1436 /* Drink ReminderTests */ = {
 			isa = PBXGroup;
 			children = (
+				92E96C8E1C6A46C69DA11534 /* ReminderManagerTests.swift */,
 				6F0EA1B6CBC6180D255702EE /* ReminderSchedulerTests.swift */,
 				C9C9D5B7C53A6F1DE7C84462 /* SettingsStoreTests.swift */,
 			);
@@ -210,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79E7A0E341E54F678B7D8112 /* ReminderManagerTests.swift in Sources */,
 				533299E16C080AD230679F50 /* ReminderSchedulerTests.swift in Sources */,
 				C8C22F3CAEE5C109A8B2F162 /* SettingsStoreTests.swift in Sources */,
 			);
